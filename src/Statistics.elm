@@ -34,7 +34,7 @@ module Statistics exposing
 import Dict exposing (Dict)
 
 
-{-| alias for max, to make piped usage more intuitive
+{-| Alias for max, to make piped usage more intuitive
 
     number |> atLeast 5
 
@@ -44,7 +44,7 @@ atLeast =
     max
 
 
-{-| alias for max, to make piped usage more intuitive
+{-| Alias for max, to make piped usage more intuitive
 
     number |> atMost 5
 
@@ -54,14 +54,14 @@ atMost =
     min
 
 
-{-| alias for List.maximum
+{-| Alias for List.maximum
 -}
 maximum : List number -> Maybe number
 maximum =
     List.maximum
 
 
-{-| alias for List.minimum
+{-| Alias for List.minimum
 -}
 minimum : List number -> Maybe number
 minimum =
@@ -103,18 +103,26 @@ avgFolder n ( count, total ) =
     ( count + 1, total + n )
 
 
+{-| Alias for avg
+-}
+mean : List Float -> Maybe Float
 mean =
     avg
 
 
+{-| Alias for avgInt
+-}
+meanInt : List Int -> Maybe Int
 meanInt =
     avgInt
 
 
 {-| Get the median of a sorted list of Float
-if the length of the list is even, the retun value is the average of the two
+
+If the length of the list is even, the retun value is the average of the two
 values at the middle of the list.
 Returns `Nothing` if the list is empty
+
 -}
 median : List Float -> Maybe Float
 median sorted =
@@ -139,9 +147,11 @@ median sorted =
 
 
 {-| Get the median of a sorted list of Int
-if the length of the list is even, the retun value is the average of the two
+
+If the length of the list is even, the retun value is the average of the two
 values at the middle of the list.
 Returns `Nothing` if the list is empty
+
 -}
 medianInt : List Int -> Maybe Int
 medianInt sorted =
@@ -166,7 +176,9 @@ medianInt sorted =
 
 
 {-| Get minimum and maximum from list
+
 Returns `Nothing` if list is empty
+
 -}
 minmax : List number -> Maybe ( number, number )
 minmax list =
@@ -195,8 +207,10 @@ countFolder n dict =
 
 
 {-| Get the element at a position in percent from a list
+
 If the percentage doesn't exactly match an element the value is interpolated
 from the two closest elements
+
 -}
 percentile : Float -> List Float -> Maybe Float
 percentile p sorted =
@@ -226,8 +240,10 @@ percentile p sorted =
 
 
 {-| Get the element at a position in percent from a list
+
 If the percentage doesn't exactly match an element the value is interpolated
 from the two closest elements
+
 -}
 percentileInt : Float -> List Int -> Maybe Int
 percentileInt p sorted =
