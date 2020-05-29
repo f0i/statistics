@@ -7,22 +7,6 @@ import Statistics as Stat
 import Test exposing (..)
 
 
-float9 =
-    [ 13.0, 13, 13, 13, 14, 14, 16, 18, 21 ]
-
-
-float4 =
-    [ 1.0, 2, 4, 7 ]
-
-
-int9 =
-    [ 13, 13, 13, 13, 14, 14, 16, 18, 21 ]
-
-
-int4 =
-    [ 1, 2, 4, 7 ]
-
-
 {-| Int fuzzer for well defined range of Int
 as defined in [package.elm-lang.org/…/Basics#Int](https://package.elm-lang.org/packages/elm/core/latest/Basics#Int)
 -}
@@ -32,6 +16,19 @@ int =
 
 suite : Test
 suite =
+    let
+        float9 =
+            [ 13.0, 13, 13, 13, 14, 14, 16, 18, 21 ]
+
+        float4 =
+            [ 1.0, 2, 4, 7 ]
+
+        int9 =
+            [ 13, 13, 13, 13, 14, 14, 16, 18, 21 ]
+
+        int4 =
+            [ 1, 2, 4, 7 ]
+    in
     describe "Statistics"
         [ describe "avg/mean"
             [ test "9 Floats" <|
@@ -166,6 +163,11 @@ suite =
                     randomList
                         |> Stat.percentileInt 0.5
                         |> Expect.equal (randomList |> Stat.medianInt)
+            , fuzz (list float) "0% equals List.head" <|
+                \randomList ->
+                    randomList
+                        |> Stat.percentile 0
+                        |> Expect.equal (randomList |> List.head)
             ]
         , describe "standard deviation"
             [ test "9 FLoats" <|
