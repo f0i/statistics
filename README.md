@@ -1,4 +1,4 @@
-# Statistic functions for lists of Float and Int
+# Fast Statistic functions for Lists of Float and Int
 
 This package provides functions to get common statistic functions over lists of numbers.
 
@@ -7,6 +7,7 @@ please let me know by creating an [Issue in Github](https://github.com/f0i/stati
 or send me an email at [elm-statistics@f0i.de](mailto:elm-statistics@f0i.de?subject=github:f0i/statistics).
 Same thing for performance improvements, ideas, sponsoring and job offers.
 
+Performance tests can be found in the benchmark subdirectory.
 
 ## Install
 
@@ -20,7 +21,7 @@ elm install f0i/statistics
 ```elm
 $ elm repl
 
-> import Statistics as Stat
+> import FStatistics as Stat
 -- This is the test data for the following examples:
 > data = [1, 1, 2, 2, 4, 8, 8, 9]
 [1,1,2,2,4,8,8,9]
@@ -54,3 +55,12 @@ Just 8 : Maybe Int
 
 The complete list of function definitions can be found in
 [the package documentation](https://package.elm-lang.org/packages/f0i/statistics/latest/Statistics)
+
+
+## Development
+
+This package uses elm-test and elm-benchmark.
+There are make inside the [makefile](makefile) to run these tests whenever a file changes.
+
+
+```
