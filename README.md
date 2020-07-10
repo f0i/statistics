@@ -7,7 +7,7 @@ please let me know by creating an [Issue in Github](https://github.com/f0i/stati
 or send me an email at [elm-statistics@f0i.de](mailto:elm-statistics@f0i.de?subject=github:f0i/statistics).
 Same thing for performance improvements, ideas, sponsoring and job offers.
 
-Performance tests can be found in the benchmark subdirectory.
+Performance tests and comparision to other libraries can be found in the benchmark directory or at [f0i.de/projects/elm-statistics](https://f0i.de/projects/elm-statistics).
 
 ## Install
 
@@ -62,5 +62,12 @@ The complete list of function definitions can be found in
 This package uses elm-test and elm-benchmark.
 There are make inside the [makefile](makefile) to run these tests whenever a file changes.
 
+## Alternatives
 
-```
+There are some other libraries which provide statistics functions:
+
+* https://package.elm-lang.org/packages/gampleman/elm-visualization/latest/
+* https://package.elm-lang.org/packages/BrianHicks/elm-trend/latest/
+* https://package.elm-lang.org/packages/jxxcarlson/elm-stat/latest
+
+See https://f0i.de/projects/elm-statistics for performance comparision.
