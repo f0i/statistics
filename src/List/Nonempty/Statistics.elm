@@ -131,7 +131,6 @@ meanInt =
 
 If the length of the list is even, the retun value is the average of the two
 values at the middle of the list.
-Returns `Nothing` if the list is empty
 
 -}
 median : Nonempty Float -> Float
@@ -143,7 +142,6 @@ median =
 
 If the length of the list is even, the retun value is the average of the two
 values at the middle of the list.
-Returns `Nothing` if the list is empty
 
 -}
 medianInt : Nonempty Int -> Int
@@ -153,7 +151,6 @@ medianInt =
 
 {-| Get minimum and maximum from list
 
-Returns `Nothing` if list is empty
 
 -}
 minmax : Nonempty number -> ( number, number )
@@ -180,31 +177,9 @@ If the percentage doesn't exactly match an element the value is interpolated
 from the two closest elements
 
 -}
-percentile : Float -> List Float -> Maybe Float
-percentile p sorted =
-    let
-        l =
-            List.length sorted
-
-        pos =
-            (toFloat l - 1) * clamp 0 1 p
-
-        weight =
-            pos - toFloat (floor pos)
-
-        rest =
-            sorted |> List.drop (floor pos)
-    in
-    case rest of
-        a :: b :: _ ->
-            (a * (1 - weight)) + (b * weight) |> Just
-
-        a :: [] ->
-            Just a
-
-        [] ->
-            -- List was empty
-            Nothing
+percentile : Float -> Nonempty Float -> Float
+percentile p =
+    mapListOrHead (Stats.percentile p)
 
 
 {-| Get the element at a position in percent from a list
