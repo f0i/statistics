@@ -53,7 +53,7 @@ Just 8 : Maybe Int
 ```
 
 The complete list of function definitions can be found in
-[the package documentation](https://package.elm-lang.org/packages/f0i/statistics/latest/Statistics)
+[the package documentation](https://package.elm-lang.org/packages/f0i/statistics/latest/List-Statistics)
 
 ## Development
 
