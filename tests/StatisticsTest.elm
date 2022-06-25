@@ -2,8 +2,10 @@ module StatisticsTest exposing (..)
 
 import Dict
 import Expect exposing (FloatingPointTolerance(..))
-import FStatistics as Stat
 import Fuzz exposing (Fuzzer, float, intRange, list)
+import List.Nonempty
+import List.Nonempty.Statistics as StatNe
+import List.Statistics as Stat
 import Test exposing (..)
 
 
@@ -21,16 +23,24 @@ suite =
         float9 =
             [ 13.0, 13, 13, 13, 14, 14, 16, 18, 21 ]
 
+        float9nonempty =
+            List.Nonempty.fromList float9
+                |> Maybe.withDefault (List.Nonempty.singleton 0)
+
         float4 =
             [ 1.0, 2, 4, 7 ]
 
         int9 =
             [ 13, 13, 13, 13, 14, 14, 16, 18, 21 ]
 
+        int9nonempty =
+            List.Nonempty.fromList int9
+                |> Maybe.withDefault (List.Nonempty.singleton 0)
+
         int4 =
             [ 1, 2, 4, 7 ]
     in
-    describe "Statistics"
+    describe "List.Statistics"
         [ describe "avg/mean"
             [ test "9 Floats" <|
                 \_ ->
@@ -175,6 +185,11 @@ suite =
                 \_ ->
                     float9
                         |> Stat.percentiles [ 0, 0.25, 0.5, 0.75, 1 ]
+                        |> Expect.equal (Just [ 13, 13, 14, 16, 21 ])
+            , test "Nonempty 0, 25, 50, 75 and 100%" <|
+                \_ ->
+                    float9nonempty
+                        |> StatNe.percentiles [ 0, 0.25, 0.5, 0.75, 1 ]
                         |> Expect.equal [ 13, 13, 14, 16, 21 ]
             ]
         , describe "percentilesInt"
@@ -182,6 +197,11 @@ suite =
                 \_ ->
                     int9
                         |> Stat.percentilesInt [ 0, 0.25, 0.5, 0.75, 1 ]
+                        |> Expect.equal (Just [ 13, 13, 14, 16, 21 ])
+            , test "0, 25, 50, 75 and 100%" <|
+                \_ ->
+                    int9nonempty
+                        |> StatNe.percentilesInt [ 0, 0.25, 0.5, 0.75, 1 ]
                         |> Expect.equal [ 13, 13, 14, 16, 21 ]
             ]
         , describe "variance"

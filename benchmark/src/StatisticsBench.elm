@@ -2,7 +2,7 @@ module StatisticsBench exposing (main)
 
 import Benchmark exposing (..)
 import Benchmark.Runner exposing (BenchmarkProgram, program)
-import FStatistics as Stat
+import List.Statistics as Stat
 import Stat as ElmStat
 import Statistics as ElmVisual
 import Trend.Math as ElmTrend
@@ -25,7 +25,7 @@ suite =
         info =
             "Testdata is a List of " ++ String.fromInt count ++ " Floats"
     in
-    describe "Statistics"
+    describe "List.Statistics"
         [ describe "internal comparison"
             [ Benchmark.compare ("average | " ++ info)
                 "avg/mean"

@@ -1,4 +1,4 @@
-module FStatistics exposing
+module List.Statistics exposing
     ( avg, avgInt, mean, meanInt
     , median, medianInt, percentile, percentileInt
     , percentiles, percentilesInt
@@ -325,7 +325,7 @@ If the percentage doesn't exactly match an element the value is interpolated
 from the two closest elements
 
 -}
-percentiles : List Float -> List Float -> List Float
+percentiles : List Float -> List Float -> Maybe (List Float)
 percentiles ps sorted =
     let
         pss =
@@ -335,40 +335,45 @@ percentiles ps sorted =
             sorted |> List.length
     in
     pss
-        |> List.foldl (percentilesHelper l) ( 0, sorted, [] )
-        |> (\( _, _, c ) -> c)
-        |> List.reverse
+        |> List.foldl (percentilesHelper l) (Just ( 0, sorted, [] ))
+        |> Maybe.map (\( _, _, c ) -> c)
+        |> Maybe.map List.reverse
 
 
 type alias PercentilesAcc =
     ( Int, List Float, List Float )
 
 
-percentilesHelper : Int -> Float -> PercentilesAcc -> PercentilesAcc
-percentilesHelper length p ( dropped, sorted, acc ) =
-    let
-        pos =
-            (toFloat length - 1) * p
+percentilesHelper : Int -> Float -> Maybe PercentilesAcc -> Maybe PercentilesAcc
+percentilesHelper length p maybeAcc =
+    case maybeAcc of
+        Nothing ->
+            Nothing
 
-        index =
-            floor pos
+        Just ( dropped, sorted, acc ) ->
+            let
+                pos =
+                    (toFloat length - 1) * p
 
-        weight =
-            pos - toFloat index
+                index =
+                    floor pos
 
-        rest =
-            sorted |> List.drop (index - dropped)
-    in
-    case rest of
-        a :: b :: _ ->
-            ( index, rest, (a * (1 - weight)) + (b * weight) :: acc )
+                weight =
+                    pos - toFloat index
 
-        a :: [] ->
-            ( index, rest, a :: acc )
+                rest =
+                    sorted |> List.drop (index - dropped)
+            in
+            case rest of
+                a :: b :: _ ->
+                    Just ( index, rest, (a * (1 - weight)) + (b * weight) :: acc )
 
-        [] ->
-            -- List was empty
-            ( index, rest, acc )
+                a :: [] ->
+                    Just ( index, rest, a :: acc )
+
+                [] ->
+                    -- List was empty
+                    Nothing
 
 
 {-| Get elements at multiple positions in percent from a list
@@ -377,7 +382,7 @@ If the percentage doesn't exactly match an element the value is interpolated
 from the two closest elements
 
 -}
-percentilesInt : List Float -> List Int -> List Int
+percentilesInt : List Float -> List Int -> Maybe (List Int)
 percentilesInt ps sorted =
     let
         pss =
@@ -387,48 +392,52 @@ percentilesInt ps sorted =
             sorted |> List.length
     in
     pss
-        |> List.foldl (percentilesIntHelper l) ( 0, sorted, [] )
-        |> (\( _, _, c ) -> c)
-        |> List.reverse
+        |> List.foldl (percentilesIntHelper l) (Just ( 0, sorted, [] ))
+        |> Maybe.map (\( _, _, c ) -> c)
+        |> Maybe.map List.reverse
 
 
 type alias PercentilesIntAcc =
     ( Int, List Int, List Int )
 
 
-percentilesIntHelper : Int -> Float -> PercentilesIntAcc -> PercentilesIntAcc
-percentilesIntHelper length p ( dropped, sorted, acc ) =
-    let
-        pos =
-            (toFloat length - 1) * p
+percentilesIntHelper : Int -> Float -> Maybe PercentilesIntAcc -> Maybe PercentilesIntAcc
+percentilesIntHelper length p maybeAcc =
+    case maybeAcc of
+        Nothing ->
+            Nothing
 
-        index =
-            floor pos
+        Just ( dropped, sorted, acc ) ->
+            let
+                pos =
+                    (toFloat length - 1) * p
 
-        weight =
-            pos - toFloat index
+                index =
+                    floor pos
 
-        rest =
-            sorted |> List.drop (index - dropped)
-    in
-    case rest of
-        a :: b :: _ ->
-            ((toFloat a * (1 - weight)) + (toFloat b * weight))
-                -- use truncate for same behaviour as int division (`//`)
-                |> truncate
-                |> (\value -> ( index, rest, value :: acc ))
+                weight =
+                    pos - toFloat index
 
-        a :: [] ->
-            ( index, rest, a :: acc )
+                rest =
+                    sorted |> List.drop (index - dropped)
+            in
+            case rest of
+                a :: b :: _ ->
+                    ((toFloat a * (1 - weight)) + (toFloat b * weight))
+                        -- use truncate for same behaviour as int division (`//`)
+                        |> truncate
+                        |> (\value -> ( index, rest, value :: acc ))
+                        |> Just
 
-        [] ->
-            -- List was empty
-            ( index, rest, acc )
+                a :: [] ->
+                    Just ( index, rest, a :: acc )
+
+                [] ->
+                    -- List was empty
+                    Nothing
 
 
-{-| Get The variance of a population of int
-This function uses mostly Int calculations wich can cause rounding errors.
-See function `variance` (which uses Float) for more precise results.
+{-| Get The variance of a population of Float
 -}
 variance : List Float -> Maybe Float
 variance population =
@@ -448,7 +457,7 @@ variance population =
             )
 
 
-{-| Get The variance of a population of int
+{-| Get The variance of a population of Int
 This function uses mostly Int calculations wich can cause rounding errors.
 See function `variance` (which uses Float) for more precise results.
 -}

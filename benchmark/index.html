@@ -14785,13 +14785,13 @@ var $elm_explorations$benchmark$Benchmark$Runner$program = function (benchmark) 
 			view: $elm_explorations$benchmark$Benchmark$Runner$App$view
 		});
 };
-var $author$project$FStatistics$avgFolder = F2(
+var $author$project$List$Statistics$avgFolder = F2(
 	function (n, _v0) {
 		var count = _v0.a;
 		var total = _v0.b;
 		return _Utils_Tuple2(count + 1, total + n);
 	});
-var $author$project$FStatistics$avg = function (list) {
+var $author$project$List$Statistics$avg = function (list) {
 	if (!list.b) {
 		return $elm$core$Maybe$Nothing;
 	} else {
@@ -14803,7 +14803,7 @@ var $author$project$FStatistics$avg = function (list) {
 			}(
 				A3(
 					$elm$core$List$foldl,
-					$author$project$FStatistics$avgFolder,
+					$author$project$List$Statistics$avgFolder,
 					_Utils_Tuple2(0, 0),
 					list)));
 	}
@@ -14840,7 +14840,7 @@ var $elm$core$List$maximum = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $author$project$FStatistics$mean = $author$project$FStatistics$avg;
+var $author$project$List$Statistics$mean = $author$project$List$Statistics$avg;
 var $jxxcarlson$elm_stat$Stat$mean = F2(
 	function (selector, dataList) {
 		var values = A2($elm$core$List$map, selector, dataList);
@@ -14853,7 +14853,7 @@ var $jxxcarlson$elm_stat$Stat$mean = F2(
 			return $elm$core$Maybe$Nothing;
 		}
 	});
-var $author$project$FStatistics$median = function (sorted) {
+var $author$project$List$Statistics$median = function (sorted) {
 	var l = $elm$core$List$length(sorted);
 	var rest = A2($elm$core$List$drop, ((l - 1) / 2) | 0, sorted);
 	if (A2($elm$core$Basics$modBy, 2, l) === 1) {
@@ -14869,7 +14869,7 @@ var $author$project$FStatistics$median = function (sorted) {
 		}
 	}
 };
-var $author$project$FStatistics$minmax = function (list) {
+var $author$project$List$Statistics$minmax = function (list) {
 	var min = $elm$core$List$minimum(list);
 	var max = $elm$core$List$maximum(list);
 	var _v0 = _Utils_Tuple2(min, max);
@@ -14882,7 +14882,7 @@ var $author$project$FStatistics$minmax = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $author$project$FStatistics$percentile = F2(
+var $author$project$List$Statistics$percentile = F2(
 	function (p, sorted) {
 		var l = $elm$core$List$length(sorted);
 		var pos = (l - 1) * A3($elm$core$Basics$clamp, 0, 1, p);
@@ -14905,7 +14905,7 @@ var $author$project$FStatistics$percentile = F2(
 			return $elm$core$Maybe$Nothing;
 		}
 	});
-var $author$project$FStatistics$percentilesHelper = F3(
+var $author$project$List$Statistics$percentilesHelper = F3(
 	function (length, p, _v0) {
 		var dropped = _v0.a;
 		var sorted = _v0.b;
@@ -14934,7 +14934,7 @@ var $author$project$FStatistics$percentilesHelper = F3(
 			return _Utils_Tuple3(index, rest, acc);
 		}
 	});
-var $author$project$FStatistics$percentiles = F2(
+var $author$project$List$Statistics$percentiles = F2(
 	function (ps, sorted) {
 		var pss = A2(
 			$elm$core$List$map,
@@ -14948,7 +14948,7 @@ var $author$project$FStatistics$percentiles = F2(
 			}(
 				A3(
 					$elm$core$List$foldl,
-					$author$project$FStatistics$percentilesHelper(l),
+					$author$project$List$Statistics$percentilesHelper(l),
 					_Utils_Tuple3(0, sorted, _List_Nil),
 					pss)));
 	});
@@ -15011,7 +15011,7 @@ var $gampleman$elm_visualization$Statistics$quantile = F2(
 			}
 		}
 	});
-var $author$project$FStatistics$variance = function (population) {
+var $author$project$List$Statistics$variance = function (population) {
 	return A2(
 		$elm$core$Maybe$map,
 		function (m) {
@@ -15031,13 +15031,13 @@ var $author$project$FStatistics$variance = function (population) {
 			var total = _v0.b;
 			return total / count;
 		},
-		$author$project$FStatistics$mean(population));
+		$author$project$List$Statistics$mean(population));
 };
-var $author$project$FStatistics$stdDeviation = function (population) {
+var $author$project$List$Statistics$stdDeviation = function (population) {
 	return A2(
 		$elm$core$Maybe$map,
 		$elm$core$Basics$sqrt,
-		$author$project$FStatistics$variance(population));
+		$author$project$List$Statistics$variance(population));
 };
 var $jxxcarlson$elm_stat$Stat$stdev = F2(
 	function (selector, dataList) {
@@ -15076,7 +15076,7 @@ var $author$project$StatisticsBench$suite = function () {
 			A2($elm$core$List$range, 0, count)));
 	return A2(
 		$elm_explorations$benchmark$Benchmark$describe,
-		'Statistics',
+		'List.Statistics',
 		_List_fromArray(
 			[
 				A2(
@@ -15089,18 +15089,18 @@ var $author$project$StatisticsBench$suite = function () {
 						'average | ' + info,
 						'avg/mean',
 						function (_v0) {
-							return $author$project$FStatistics$avg(testdata);
+							return $author$project$List$Statistics$avg(testdata);
 						},
 						'median',
 						function (_v1) {
-							return $author$project$FStatistics$median(testdata);
+							return $author$project$List$Statistics$median(testdata);
 						}),
 						A5(
 						$elm_explorations$benchmark$Benchmark$compare,
 						'minmax',
 						'minmax',
 						function (_v2) {
-							return $author$project$FStatistics$minmax(testdata);
+							return $author$project$List$Statistics$minmax(testdata);
 						},
 						'min, max',
 						function (_v3) {
@@ -15113,29 +15113,29 @@ var $author$project$StatisticsBench$suite = function () {
 						'percentile',
 						'0%',
 						function (_v4) {
-							return A2($author$project$FStatistics$percentile, 0, testdata);
+							return A2($author$project$List$Statistics$percentile, 0, testdata);
 						},
 						'100%',
 						function (_v5) {
-							return A2($author$project$FStatistics$percentile, 1, testdata);
+							return A2($author$project$List$Statistics$percentile, 1, testdata);
 						}),
 						A5(
 						$elm_explorations$benchmark$Benchmark$compare,
 						'middle element',
 						'percentile 50%',
 						function (_v6) {
-							return A2($author$project$FStatistics$percentile, 0.5, testdata);
+							return A2($author$project$List$Statistics$percentile, 0.5, testdata);
 						},
 						'median',
 						function (_v7) {
-							return $author$project$FStatistics$median(testdata);
+							return $author$project$List$Statistics$median(testdata);
 						}),
 						A5(
 						$elm_explorations$benchmark$Benchmark$compare,
 						'first element',
 						'percentile 0%',
 						function (_v8) {
-							return A2($author$project$FStatistics$percentile, 0.0, testdata);
+							return A2($author$project$List$Statistics$percentile, 0.0, testdata);
 						},
 						'List.head',
 						function (_v9) {
@@ -15147,7 +15147,7 @@ var $author$project$StatisticsBench$suite = function () {
 						'percentiles',
 						function (_v10) {
 							return A2(
-								$author$project$FStatistics$percentiles,
+								$author$project$List$Statistics$percentiles,
 								_List_fromArray(
 									[0.1, 0.5, 0.9]),
 								testdata);
@@ -15156,9 +15156,9 @@ var $author$project$StatisticsBench$suite = function () {
 						function (_v11) {
 							return _List_fromArray(
 								[
-									A2($author$project$FStatistics$percentile, 0.1, testdata),
-									A2($author$project$FStatistics$percentile, 0.5, testdata),
-									A2($author$project$FStatistics$percentile, 0.9, testdata)
+									A2($author$project$List$Statistics$percentile, 0.1, testdata),
+									A2($author$project$List$Statistics$percentile, 0.5, testdata),
+									A2($author$project$List$Statistics$percentile, 0.9, testdata)
 								]);
 						})
 					])),
@@ -15172,7 +15172,7 @@ var $author$project$StatisticsBench$suite = function () {
 						'percentile vs. gampleman/elm-visualization',
 						'percentile 50%',
 						function (_v12) {
-							return A2($author$project$FStatistics$percentile, 0.5, testdata);
+							return A2($author$project$List$Statistics$percentile, 0.5, testdata);
 						},
 						'elm-visual… quantile 50%',
 						function (_v13) {
@@ -15183,7 +15183,7 @@ var $author$project$StatisticsBench$suite = function () {
 						'mean vs. BrianHicks/elm-trend',
 						'mean',
 						function (_v14) {
-							return $author$project$FStatistics$mean(testdata);
+							return $author$project$List$Statistics$mean(testdata);
 						},
 						'elm-trend mean',
 						function (_v15) {
@@ -15195,7 +15195,7 @@ var $author$project$StatisticsBench$suite = function () {
 						'mean vs. jxxcarlson/elm-stat',
 						'mean',
 						function (_v16) {
-							return $author$project$FStatistics$mean(testdata);
+							return $author$project$List$Statistics$mean(testdata);
 						},
 						'elm-stat mean',
 						function (_v17) {
@@ -15206,7 +15206,7 @@ var $author$project$StatisticsBench$suite = function () {
 						'stdDeviation vs. BrianHicks/elm-trend',
 						'stdDeviation',
 						function (_v18) {
-							return $author$project$FStatistics$stdDeviation(testdata);
+							return $author$project$List$Statistics$stdDeviation(testdata);
 						},
 						'elm-trend stddev',
 						function (_v19) {
@@ -15218,7 +15218,7 @@ var $author$project$StatisticsBench$suite = function () {
 						'stdDeviation vs. jxxcarlson/elm-stat',
 						'stdDeviation',
 						function (_v20) {
-							return $author$project$FStatistics$stdDeviation(testdata);
+							return $author$project$List$Statistics$stdDeviation(testdata);
 						},
 						'elm-stat stdev',
 						function (_v21) {
